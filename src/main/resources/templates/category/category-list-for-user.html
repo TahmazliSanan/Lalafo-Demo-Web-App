@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="~{base/layout::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Kateqoriyalar</title>
+</head>
+<body>
+<section>
+    <div class="container-fluid p-5 mt-5">
+        <h2>Kateqoriyalar</h2>
+        <form class="d-flex ml-2 mb-2" role="search" method="get" action="/category/list-for-user">
+            <input class="form-control me-2" type="search" id="character" name="character"
+                   placeholder="Kateqoriyanın adını daxil edin" aria-label="Search">
+            <button class="btn btn-outline-secondary" type="submit">Axtar</button>
+        </form>
+        <div class="row">
+            <th:block th:if="${categoryList.size() > 0}">
+                <div class="col-md-3 pt-3" th:each="category : ${categoryList}">
+                    <div class="card">
+                        <img alt="" th:src="@{'/category-images/' + ${category.imageName}}"
+                             width="100%" height="150px">
+                        <div class="card-body">
+                            <h5 class="card-title">[[${category.name}]]</h5>
+                            <a class="btn btn-outline-info" href="#">Elanları gör</a>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+            <th:block th:unless="${categoryList.size() > 0}">
+                <div class="alert alert-danger alert-dismissible fade show"
+                     role="alert">
+                    Kateqoriya mövcud deyil!
+                </div>
+            </th:block>
+        </div>
+    </div>
+</section>
+</body>
+</html>
