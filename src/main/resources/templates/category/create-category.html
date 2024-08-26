@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="~{base/layout::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Kateqoriya əlavə et</title>
+</head>
+<body>
+<section>
+    <div class="container-fluid p-5 mt-5">
+        <h2>Kateqoriya əlavə et</h2>
+        <th:block th:if="${session.successMessage}">
+            <div class="alert alert-success alert-dismissible fade show"
+                 role="alert">
+                [[${session.successMessage}]]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
+        </th:block>
+        <th:block th:if="${session.errorMessage}">
+            <div class="alert alert-danger alert-dismissible fade show"
+                 role="alert">
+                [[${session.errorMessage}]]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
+        </th:block>
+        <form method="post" action="/category/create" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col">
+                    <label for="name">Ad</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Ad" required>
+                </div>
+                <div class="col">
+                    <label for="file">Şəkil</label>
+                    <input type="file" class="form-control" id="file" name="file" required>
+                </div>
+            </div>
+            <div class="mt-2">
+                <button type="submit" class="btn btn-outline-primary">Əlavə et</button>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>
