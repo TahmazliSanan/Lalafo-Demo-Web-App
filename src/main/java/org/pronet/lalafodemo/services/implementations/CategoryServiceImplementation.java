@@ -52,6 +52,11 @@ public class CategoryServiceImplementation implements CategoryService {
     }
 
     @Override
+    public List<Category> getAllCategoriesByName(String name) {
+        return categoryRepository.findAllByNameContainingIgnoreCase(name.trim());
+    }
+
+    @Override
     public void updateCategory(Category category, MultipartFile file)
             throws IOException {
         Category foundedCategory = getCategoryById(category.getId());

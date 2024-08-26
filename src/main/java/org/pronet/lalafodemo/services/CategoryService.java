@@ -10,6 +10,7 @@ public interface CategoryService {
     void createCategory(Category category, MultipartFile file) throws IOException;
     Category getCategoryById(Long id);
     List<Category> getAllCategories();
+    List<Category> getAllCategoriesByName(String name);
     void updateCategory(Category category, MultipartFile file) throws IOException;
     void deleteCategoryById(Long id);
     Boolean isExistCategoryByName(String name);
