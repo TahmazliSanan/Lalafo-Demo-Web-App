@@ -72,6 +72,11 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
+    public List<Product> getAllProductsByCategoryId(Long categoryId) {
+        return productRepository.findAllByCategoryId(categoryId);
+    }
+
+    @Override
     public void updateProduct(Product product, MultipartFile file, Long categoryId) throws IOException {
         Optional<Category> foundedCategory = categoryRepository.findById(categoryId);
         Product foundedProduct = getProductById(product.getId());
