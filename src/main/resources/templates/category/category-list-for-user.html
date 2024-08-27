@@ -11,6 +11,22 @@
 <section>
     <div class="container-fluid p-5 mt-5">
         <h2>Kateqoriyalar</h2>
+        <th:block th:if="${session.successMessage}">
+            <div class="alert alert-success alert-dismissible fade show"
+                 role="alert">
+                [[${session.successMessage}]]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
+        </th:block>
+        <th:block th:if="${session.errorMessage}">
+            <div class="alert alert-danger alert-dismissible fade show"
+                 role="alert">
+                [[${session.errorMessage}]]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
+        </th:block>
         <form class="d-flex ml-2 mb-2" role="search" method="get" action="/category/list-for-user">
             <input class="form-control me-2" type="search" id="character" name="character"
                    placeholder="Kateqoriyanın adını daxil edin" aria-label="Search">
@@ -25,7 +41,7 @@
                         <div class="card-body">
                             <h5 class="card-title">[[${category.name}]]</h5>
                             <a class="btn btn-outline-info"
-                               th:href="@{'/product/list/by-category/' + ${category.id}}">Elanları gör</a>
+                               th:href="@{'/category/' + ${category.id} + '/product-list'}">Elanları gör</a>
                         </div>
                     </div>
                 </div>
