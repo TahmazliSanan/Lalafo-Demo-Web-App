@@ -70,10 +70,17 @@ public class CategoryController {
     @GetMapping(value = "/update-view/{id}")
     public String updateCategoryView(
             @PathVariable(value = "id") Long id,
-            Model model) {
+            Model model,
+            HttpSession session) {
         Category foundedCategory = categoryService.getCategoryById(id);
-        model.addAttribute("foundedCategory", foundedCategory);
-        return "category/update-category";
+        if (foundedCategory == null) {
+            session.setAttribute("errorMessage", "Kateqoriya mövcud deyil. " +
+                    "Zəhmət olmasa mövcud kateqoriyanı düzənləməyə cəhd edin!");
+            return "redirect:/category/list-for-admin";
+        } else {
+            model.addAttribute("foundedCategory", foundedCategory);
+            return "category/update-category";
+        }
     }
 
     @PostMapping(value = "/update")
@@ -90,10 +97,17 @@ public class CategoryController {
     @GetMapping(value = "/delete-view/{id}")
     public String deleteCategoryView(
             @PathVariable(value = "id") Long id,
-            Model model) {
+            Model model,
+            HttpSession session) {
         Category foundedCategory = categoryService.getCategoryById(id);
-        model.addAttribute("foundedCategory", foundedCategory);
-        return "category/delete-category";
+        if (foundedCategory == null) {
+            session.setAttribute("errorMessage", "Kateqoriya mövcud deyil. " +
+                    "Zəhmət olmasa mövcud kateqoriyanı silməyə cəhd edin!");
+            return "redirect:/category/list-for-admin";
+        } else {
+            model.addAttribute("foundedCategory", foundedCategory);
+            return "category/delete-category";
+        }
     }
 
     @PostMapping(value = "/delete")
