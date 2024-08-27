@@ -28,14 +28,14 @@
             <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
         </th:block>
         <a class="btn btn-outline-primary mb-4" href="/product/create-view">Məhsul paylaş</a>
-        <form class="d-flex ml-2 mb-2" role="search" method="get" action="#">
+        <form class="d-flex ml-2 mb-2" role="search" method="get" action="/product/list/search-by-price">
             <label for="minimumPrice" class="me-2">
-                <input class="form-control" type="text" id="minimumPrice"
-                       name="minimumPrice" placeholder="Minimum qiymət">
+                <input class="form-control" type="number" id="minimumPrice"
+                       name="minimumPrice" placeholder="Minimum qiymət" step="0.1">
             </label>
             <label for="minimumPrice" class="me-2">
-                <input class="form-control" type="text" id="maximumPrice"
-                       name="maximumPrice" placeholder="Maksimum qiymət">
+                <input class="form-control" type="number" id="maximumPrice"
+                       name="maximumPrice" placeholder="Maksimum qiymət" step="0.1">
             </label>
             <button class="btn btn-outline-secondary" type="submit">Axtar</button>
         </form>
