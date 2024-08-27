@@ -2,7 +2,9 @@ package org.pronet.lalafodemo.controllers;
 
 import jakarta.servlet.http.HttpSession;
 import org.pronet.lalafodemo.entities.Category;
+import org.pronet.lalafodemo.entities.Product;
 import org.pronet.lalafodemo.services.CategoryService;
+import org.pronet.lalafodemo.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,9 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private ProductService productService;
 
     @GetMapping(value = "/create-view")
     public String createCategoryView() {
@@ -117,5 +122,22 @@ public class CategoryController {
         categoryService.deleteCategoryById(id);
         session.setAttribute("successMessage", "Kateqoriya uğurla silindi!");
         return "redirect:/category/list-for-admin";
+    }
+
+    @GetMapping(value = "/{id}/product-list")
+    public String productListByCategoryView(
+            @PathVariable(value = "id") Long id,
+            Model model,
+            HttpSession session) {
+        Category foundedCategory = categoryService.getCategoryById(id);
+        if (foundedCategory == null) {
+            session.setAttribute("errorMessage", "Kateqoriya mövcud deyil. " +
+                    "Zəhmət olmasa mövcud kateqoriya üzrə məhsullara baxmağa cəhd edin!");
+            return "redirect:/category/list-for-user";
+        } else {
+            List<Product> productList = productService.getAllProductsByCategoryId(id);
+            model.addAttribute("productList", productList);
+            return "product/product-list-by-category";
+        }
     }
 }
