@@ -64,6 +64,15 @@ public class ProductController {
         return "product/product-list";
     }
 
+    @GetMapping("/list/by-category/{id}")
+    public String productListByCategoryView(
+            @PathVariable(value = "id") Long id,
+            Model model) {
+        List<Product> productList = productService.getAllProductsByCategoryId(id);
+        model.addAttribute("productList", productList);
+        return "product/product-list-by-category";
+    }
+
     @GetMapping(value = "/update-view/{id}")
     public String updateProductView(
             @PathVariable(value = "id") Long id,
