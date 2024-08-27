@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="~{base/layout::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Məhsul haqqında ətraflı məlumat</title>
+</head>
+<body>
+<section>
+  <div class="container card-sh" style="margin-top: 70px; margin-bottom: 100px">
+    <h2>Məhsul haqqında ətraflı məlumat</h2>
+    <div class="col-md-12 p-5">
+      <th:block th:if="${session.successMessage}">
+        <div class="alert alert-success alert-dismissible fade show"
+             role="alert">
+          [[${session.successMessage}]]
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
+      </th:block>
+      <th:block th:if="${session.errorMessage}">
+        <div class="alert alert-danger alert-dismissible fade show"
+             role="alert">
+          [[${session.errorMessage}]]
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
+      </th:block>
+      <div class="row">
+        <div class="col-md-6 text-end">
+          <img alt="" th:src="@{'/product-images/' + ${foundedProduct.imageName}}"
+               width="330px" height="400px">
+        </div>
+        <div class="col-md-6">
+          <p>
+            <span class="fw-bold">Ad:</span>
+            [[${foundedProduct.name}]]
+          </p>
+          <p>
+            <span class="fw-bold">Status:</span>
+            [[${foundedProduct.status}]]
+          </p>
+          <p>
+            <span class="fw-bold">Qiymət:</span>
+            [[${foundedProduct.price}]] AZN
+          </p>
+          <p>
+            <span class="fw-bold">Məkan:</span>
+            [[${foundedProduct.location}]]
+          </p>
+          <p>
+            <span class="fw-bold">Əlaqə nömrəsi:</span>
+            [[${foundedProduct.mobileNumber}]]
+          </p>
+          <p>
+            <span class="fw-bold">Kateqoriya:</span>
+            [[${foundedProduct.category.name}]]
+          </p>
+          <p>
+            <span class="fw-bold">Paylaşım tarixi:</span>
+            [[${#temporals.format(foundedProduct.createdDateTime, 'dd/MM/yyyy HH:mm')}]]
+          </p>
+            <a href="#" class="btn btn-outline-warning">Seçilmişlərə əlavə et</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
