@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -63,6 +64,7 @@ public class CategoryServiceImplementation implements CategoryService {
         String imageName = file.isEmpty() ? foundedCategory.getImageName() : file.getOriginalFilename();
         foundedCategory.setName(category.getName().trim());
         foundedCategory.setImageName(imageName);
+        foundedCategory.setCreatedDateTime(LocalDateTime.now());
         categoryRepository.save(foundedCategory);
         if (!file.isEmpty()) {
             File savedFile = new ClassPathResource("static/").getFile();
