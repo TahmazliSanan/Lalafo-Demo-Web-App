@@ -64,6 +64,26 @@ public class ProductController {
         return "product/product-list";
     }
 
+    @GetMapping(value = "/list/search-by-price")
+    public String productListByPriceView(
+            @RequestParam(value = "minimumPrice") String minimumPrice,
+            @RequestParam(value = "maximumPrice") String maximumPrice,
+            Model model) {
+        List<Product> productList;
+        if (!minimumPrice.isEmpty() && !maximumPrice.isEmpty()) {
+            productList = productService.getAllProductsByMinimumAndMaximumPrice(Double.parseDouble(minimumPrice),
+                    Double.parseDouble(maximumPrice));
+        } else if (!minimumPrice.isEmpty()) {
+            productList = productService.getAllProductsByMinimumPrice(Double.parseDouble(minimumPrice));
+        } else if (!maximumPrice.isEmpty()) {
+            productList = productService.getAllProductsByMaximumPrice(Double.parseDouble(maximumPrice));
+        } else {
+            productList = productService.getAllProducts();
+        }
+        model.addAttribute("productList", productList);
+        return "product/product-list";
+    }
+
     @GetMapping(value = "/update-view/{id}")
     public String updateProductView(
             @PathVariable(value = "id") Long id,
