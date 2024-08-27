@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="~{base/layout::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Məhsulu düzənlə</title>
+</head>
+<body>
+<section>
+    <div class="container-fluid p-5 mt-5">
+        <h2>Məhsulu düzənlə</h2>
+        <th:block th:if="${session.successMessage}">
+            <div class="alert alert-success alert-dismissible fade show"
+                 role="alert">
+                [[${session.successMessage}]]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
+        </th:block>
+        <th:block th:if="${session.errorMessage}">
+            <div class="alert alert-danger alert-dismissible fade show"
+                 role="alert">
+                [[${session.errorMessage}]]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
+        </th:block>
+        <img th:src="@{'/product-images/' + ${foundedProduct.imageName}}"
+             class="border p-2" style="width: 110px; height: 110px; border-radius: 50%;" alt="">
+        <form method="post" action="/product/update" enctype="multipart/form-data">
+            <input type="hidden" id="id" name="id" th:value="${foundedProduct.id}">
+            <div class="row">
+                <div class="col">
+                    <label for="name">Ad</label>
+                    <input type="text" class="form-control" id="name"
+                           name="name" th:value="${foundedProduct.name}" required>
+                </div>
+                <div class="col">
+                    <label for="price">Qiymət (AZN)</label>
+                    <input type="number" class="form-control" step="any" id="price"
+                           name="price" th:value="${foundedProduct.price}" required>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="location">Məkan</label>
+                    <input type="text" class="form-control" id="location"
+                           name="location" th:value="${foundedProduct.location}" required>
+                </div>
+                <div class="col">
+                    <label for="mobileNumber">Əlaqə nömrəsi</label>
+                    <input type="tel" class="form-control" id="mobileNumber"
+                           name="mobileNumber" th:value="${foundedProduct.mobileNumber}" required>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="category">Kateqoriya</label>
+                    <select class="form-control" id="category"
+                            name="categoryId" required>
+                        <option th:each="category : ${categoryList}"
+                                th:value="${category.id}"
+                                th:text="${category.name}"
+                                th:selected="${category.id} == ${foundedProduct.category.id}"></option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label>Status</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio"
+                               th:checked="${foundedProduct.status == 'Yeni'}" value="Yeni"
+                               name="status" id="status1">
+                        <label class="form-check-label" for="status1">Yeni</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio"
+                               th:checked="${foundedProduct.status == 'İstifadə olunmuş'}" value="İstifadə olunmuş"
+                               name="status" id="status2">
+                        <label class="form-check-label" for="status2">İstifadə olunmuş</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <label for="file">Şəkil</label>
+                    <input id="file" name="file" type="file" class="form-control">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-outline-success">Yadda saxla</button>
+        </form>
+    </div>
+</section>
+</body>
+</html>
