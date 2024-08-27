@@ -12,6 +12,9 @@ public interface ProductService {
     List<Product> getAllProducts();
     List<Product> getAllProductsByName(String name);
     List<Product> getAllProductsByCategoryId(Long categoryId);
+    List<Product> getAllProductsByMinimumPrice(Double minimumPrice);
+    List<Product> getAllProductsByMaximumPrice(Double maximumPrice);
+    List<Product> getAllProductsByMinimumAndMaximumPrice(Double minimumPrice, Double maximumPrice);
     void updateProduct(Product product, MultipartFile file, Long categoryId) throws IOException;
     void deleteProductById(Long id);
 }

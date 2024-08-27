@@ -77,6 +77,21 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
+    public List<Product> getAllProductsByMinimumPrice(Double minimumPrice) {
+        return productRepository.findAllByPriceGreaterThanEqual(minimumPrice);
+    }
+
+    @Override
+    public List<Product> getAllProductsByMaximumPrice(Double maximumPrice) {
+        return productRepository.findAllByPriceLessThanEqual(maximumPrice);
+    }
+
+    @Override
+    public List<Product> getAllProductsByMinimumAndMaximumPrice(Double minimumPrice, Double maximumPrice) {
+        return productRepository.findAllByPriceBetween(minimumPrice, maximumPrice);
+    }
+
+    @Override
     public void updateProduct(Product product, MultipartFile file, Long categoryId) throws IOException {
         Optional<Category> foundedCategory = categoryRepository.findById(categoryId);
         Product foundedProduct = getProductById(product.getId());
