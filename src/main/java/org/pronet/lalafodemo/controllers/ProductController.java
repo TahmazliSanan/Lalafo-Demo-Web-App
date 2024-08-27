@@ -64,7 +64,7 @@ public class ProductController {
         return "product/product-list";
     }
 
-    @GetMapping("/list/by-category/{id}")
+    @GetMapping(value = "/list/by-category/{id}")
     public String productListByCategoryView(
             @PathVariable(value = "id") Long id,
             Model model) {
