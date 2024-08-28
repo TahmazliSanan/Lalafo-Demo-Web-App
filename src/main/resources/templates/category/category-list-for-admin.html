@@ -27,43 +27,74 @@
             </div>
             <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
         </th:block>
-        <form class="d-flex ml-2 mb-2" role="search" method="get" action="/category/list-for-admin">
+        <form class="d-flex ml-2 mb-3" role="search" method="get" action="/category/list-for-admin">
             <input class="form-control me-2" type="search" id="character" name="character"
                    placeholder="Kateqoriyanın adını daxil edin" aria-label="Search">
             <button class="btn btn-outline-secondary" type="submit">Axtar</button>
+            <input type="hidden" id="page" name="page" value="0">
+            <input type="hidden" id="size" name="size" value="10">
         </form>
-        <th:block th:if="${categoryList.size() > 0}">
-            <table class="table table-bordered text-center">
-                <thead>
-                <tr>
-                    <th>Şəkil</th>
-                    <th>Ad</th>
-                    <th>Əməliyyatlar</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="category : ${categoryList}">
-                    <td>
-                        <img th:src="@{'/category-images/' + ${category.imageName}}"
-                             width="50px" height="50px" alt="...">
-                    </td>
-                    <td>[[${category.name}]]</td>
-                    <td>
-                        <a class="btn btn-outline-success"
-                           th:href="@{'/category/update-view/' + ${category.id}}">Düzənlə</a>
-                        <a class="btn btn-outline-danger"
-                           th:href="@{'/category/delete-view/' + ${category.id}}">Sil</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <th:block th:if="${categoryList.content.size() > 0}">
+            <span class="me-2">Kateqoriyaların sayı: [[${categoryList.totalElements}]]</span>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item" th:classappend="${!categoryList.hasPrevious()} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/category/list-for-admin(page=${categoryList.number - 1}, size=${categoryList.size}, character=${character})}"
+                           aria-label="Previous">
+                            &laquo;
+                        </a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(0, categoryList.totalPages - 1)}"
+                        th:classappend="${i == categoryList.number} ? 'active'">
+                        <a class="page-link"
+                           th:href="@{/category/list-for-admin(page=${i}, size=${categoryList.size}, character=${character})}"
+                           th:text="${i + 1}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${!categoryList.hasNext()} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/category/list-for-admin(page=${categoryList.number + 1}, size=${categoryList.size}, character=${character})}"
+                           aria-label="Next">
+                            &raquo;
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </th:block>
-        <th:block th:unless="${categoryList.size() > 0}">
-            <div class="alert alert-danger alert-dismissible fade show"
-                 role="alert">
-                Kateqoriya mövcud deyil!
-            </div>
-        </th:block>
+        <div class="row pt-3">
+            <th:block th:if="${categoryList.content.size() > 0}">
+                <table class="table table-bordered text-center">
+                    <thead>
+                    <tr>
+                        <th>Şəkil</th>
+                        <th>Ad</th>
+                        <th>Əməliyyatlar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="category : ${categoryList.content}">
+                        <td>
+                            <img th:src="@{'/category-images/' + ${category.imageName}}"
+                                 width="50px" height="50px" alt="...">
+                        </td>
+                        <td>[[${category.name}]]</td>
+                        <td>
+                            <a class="btn btn-outline-success"
+                               th:href="@{'/category/update-view/' + ${category.id}}">Düzənlə</a>
+                            <a class="btn btn-outline-danger"
+                               th:href="@{'/category/delete-view/' + ${category.id}}">Sil</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </th:block>
+            <th:block th:unless="${categoryList.content.size() > 0}">
+                <div class="alert alert-danger alert-dismissible fade show"
+                     role="alert">
+                    Kateqoriya mövcud deyil!
+                </div>
+            </th:block>
+        </div>
     </div>
 </section>
 </body>
