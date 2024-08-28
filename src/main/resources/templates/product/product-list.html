@@ -28,17 +28,6 @@
             <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
         </th:block>
         <a class="btn btn-outline-primary mb-4" href="/product/create-view">Məhsul paylaş</a>
-        <form class="d-flex ml-2 mb-2" role="search" method="get" action="/product/list/search-by-price">
-            <label for="minimumPrice" class="me-2">
-                <input class="form-control" type="number" id="minimumPrice"
-                       name="minimumPrice" placeholder="Minimum qiymət" step="0.1">
-            </label>
-            <label for="minimumPrice" class="me-2">
-                <input class="form-control" type="number" id="maximumPrice"
-                       name="maximumPrice" placeholder="Maksimum qiymət" step="0.1">
-            </label>
-            <button class="btn btn-outline-secondary" type="submit">Axtar</button>
-        </form>
         <th:block th:if="${session.successMessage}">
             <div class="alert alert-success alert-dismissible fade show"
                  role="alert">
@@ -56,6 +45,14 @@
             <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
         </th:block>
         <form class="d-flex ml-2 mb-2" role="search" method="get" action="/product/list">
+            <label for="minimumPrice" class="me-2">
+                <input class="form-control" type="number" id="minimumPrice"
+                       name="minimumPrice" placeholder="Minimum qiymət" step="0.1" min="0">
+            </label>
+            <label for="minimumPrice" class="me-2">
+                <input class="form-control" type="number" id="maximumPrice"
+                       name="maximumPrice" placeholder="Maksimum qiymət" step="0.1" min="0">
+            </label>
             <input class="form-control me-2" type="search" id="character" name="character"
                    placeholder="Elanın adını daxil edin" aria-label="Search">
             <button class="btn btn-outline-secondary" type="submit">Axtar</button>
