@@ -46,28 +46,18 @@ public class CategoryController {
 
     @GetMapping(value = "/list-for-admin")
     public String categoryListForAdminView(
-            @RequestParam(value = "character", defaultValue = "") String character,
+            @RequestParam(value = "character", required = false) String character,
             Model model) {
-        List<Category> categoryList;
-        if (!character.isEmpty()) {
-            categoryList = categoryService.getAllCategoriesByName(character);
-        } else {
-            categoryList = categoryService.getAllCategories();
-        }
+        List<Category> categoryList = categoryService.getAllCategoriesByName(character);
         model.addAttribute("categoryList", categoryList);
         return "category/category-list-for-admin";
     }
 
     @GetMapping(value = "/list-for-user")
     public String categoryListForUserView(
-            @RequestParam(value = "character", defaultValue = "") String character,
+            @RequestParam(value = "character", required = false) String character,
             Model model) {
-        List<Category> categoryList;
-        if (!character.isEmpty()) {
-            categoryList = categoryService.getAllCategoriesByName(character);
-        } else {
-            categoryList = categoryService.getAllCategories();
-        }
+        List<Category> categoryList = categoryService.getAllCategoriesByName(character);
         model.addAttribute("categoryList", categoryList);
         return "category/category-list-for-user";
     }

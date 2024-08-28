@@ -54,6 +54,9 @@ public class CategoryServiceImplementation implements CategoryService {
 
     @Override
     public List<Category> getAllCategoriesByName(String name) {
+        if (name == null) {
+            name = "";
+        }
         return categoryRepository.findAllByNameContainingIgnoreCase(name.trim());
     }
 
