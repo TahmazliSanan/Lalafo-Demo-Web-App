@@ -5,6 +5,9 @@ import org.pronet.lalafodemo.repositories.CategoryRepository;
 import org.pronet.lalafodemo.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,11 +56,12 @@ public class CategoryServiceImplementation implements CategoryService {
     }
 
     @Override
-    public List<Category> getAllCategoriesByName(String name) {
+    public Page<Category> getAllCategoriesByName(String name, Integer page, Integer size) {
         if (name == null) {
             name = "";
         }
-        return categoryRepository.findAllByNameContainingIgnoreCase(name.trim());
+        Pageable pageable = PageRequest.of(page, size);
+        return categoryRepository.findAllByNameContainingIgnoreCase(name.trim(), pageable);
     }
 
     @Override

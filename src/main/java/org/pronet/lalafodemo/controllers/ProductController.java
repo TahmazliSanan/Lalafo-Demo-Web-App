@@ -6,6 +6,7 @@ import org.pronet.lalafodemo.entities.Product;
 import org.pronet.lalafodemo.services.CategoryService;
 import org.pronet.lalafodemo.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -55,8 +56,15 @@ public class ProductController {
             @RequestParam(value = "minimumPrice", required = false) Double minimumPrice,
             @RequestParam(value = "maximumPrice", required = false) Double maximumPrice,
             @RequestParam(value = "character", required = false) String character,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "50") Integer size,
             Model model) {
-        List<Product> productList = productService.filterAllProductsByPriceAndName(minimumPrice, maximumPrice, character);
+        Page<Product> productList = productService.filterAllProductsByPriceAndName(minimumPrice, maximumPrice, character, page, size);
+        model.addAttribute("minimumPrice", minimumPrice);
+        model.addAttribute("maximumPrice", maximumPrice);
+        model.addAttribute("character", character);
+        model.addAttribute("page", page);
+        model.addAttribute("size", size);
         model.addAttribute("productList", productList);
         return "product/product-list";
     }

@@ -7,6 +7,9 @@ import org.pronet.lalafodemo.repositories.ProductRepository;
 import org.pronet.lalafodemo.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -62,12 +65,15 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProductsByCategoryId(Long categoryId) {
-        return productRepository.findAllByCategoryId(categoryId);
+    public Page<Product> getAllProductsByCategoryId(Long categoryId, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findAllByCategoryId(categoryId, pageable);
     }
 
     @Override
-    public List<Product> filterAllProductsByPriceAndName(Double minimumPrice, Double maximumPrice, String character) {
+    public Page<Product> filterAllProductsByPriceAndName(
+            Double minimumPrice, Double maximumPrice, String character,
+            Integer page, Integer size) {
         if (minimumPrice == null) {
             minimumPrice = 0.0;
         }
@@ -77,7 +83,8 @@ public class ProductServiceImplementation implements ProductService {
         if (character == null) {
             character = "";
         }
-        return productRepository.findAllByPriceBetweenAndNameContainingIgnoreCase(minimumPrice, maximumPrice, character.trim());
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findAllByPriceBetweenAndNameContainingIgnoreCase(minimumPrice, maximumPrice, character.trim(), pageable);
     }
 
     @Override

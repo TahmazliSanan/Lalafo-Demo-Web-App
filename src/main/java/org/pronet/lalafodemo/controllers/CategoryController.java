@@ -6,13 +6,13 @@ import org.pronet.lalafodemo.entities.Product;
 import org.pronet.lalafodemo.services.CategoryService;
 import org.pronet.lalafodemo.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/category")
@@ -47,8 +47,13 @@ public class CategoryController {
     @GetMapping(value = "/list-for-admin")
     public String categoryListForAdminView(
             @RequestParam(value = "character", required = false) String character,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
             Model model) {
-        List<Category> categoryList = categoryService.getAllCategoriesByName(character);
+        Page<Category> categoryList = categoryService.getAllCategoriesByName(character, page, size);
+        model.addAttribute("character", character);
+        model.addAttribute("page", page);
+        model.addAttribute("size", size);
         model.addAttribute("categoryList", categoryList);
         return "category/category-list-for-admin";
     }
@@ -56,8 +61,13 @@ public class CategoryController {
     @GetMapping(value = "/list-for-user")
     public String categoryListForUserView(
             @RequestParam(value = "character", required = false) String character,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
             Model model) {
-        List<Category> categoryList = categoryService.getAllCategoriesByName(character);
+        Page<Category> categoryList = categoryService.getAllCategoriesByName(character, page, size);
+        model.addAttribute("character", character);
+        model.addAttribute("page", page);
+        model.addAttribute("size", size);
         model.addAttribute("categoryList", categoryList);
         return "category/category-list-for-user";
     }
@@ -117,6 +127,8 @@ public class CategoryController {
     @GetMapping(value = "/{id}/product-list")
     public String productListByCategoryView(
             @PathVariable(value = "id") Long id,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "50") Integer size,
             Model model,
             HttpSession session) {
         Category foundedCategory = categoryService.getCategoryById(id);
@@ -125,7 +137,10 @@ public class CategoryController {
                     "Zəhmət olmasa mövcud kateqoriya üzrə məhsullara baxmağa cəhd edin!");
             return "redirect:/category/list-for-user";
         } else {
-            List<Product> productList = productService.getAllProductsByCategoryId(id);
+            Page<Product> productList = productService.getAllProductsByCategoryId(id, page, size);
+            model.addAttribute("id", id);
+            model.addAttribute("page", page);
+            model.addAttribute("size", size);
             model.addAttribute("productList", productList);
             return "product/product-list-by-category";
         }
