@@ -8,9 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findAllByNameContainingIgnoreCase(String name);
     List<Product> findAllByCategoryId(Long categoryId);
-    List<Product> findAllByPriceGreaterThanEqual(Double minimumPrice);
-    List<Product> findAllByPriceLessThanEqual(Double maximumPrice);
-    List<Product> findAllByPriceBetween(Double minimumPrice, Double maximumPrice);
+    List<Product> findAllByPriceBetweenAndNameContainingIgnoreCase(Double minimumPrice, Double maximumPrice, String character);
 }

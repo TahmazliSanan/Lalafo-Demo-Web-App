@@ -62,33 +62,22 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
-    }
-
-    @Override
-    public List<Product> getAllProductsByName(String name) {
-        return productRepository.findAllByNameContainingIgnoreCase(name.trim());
-    }
-
-    @Override
     public List<Product> getAllProductsByCategoryId(Long categoryId) {
         return productRepository.findAllByCategoryId(categoryId);
     }
 
     @Override
-    public List<Product> getAllProductsByMinimumPrice(Double minimumPrice) {
-        return productRepository.findAllByPriceGreaterThanEqual(minimumPrice);
-    }
-
-    @Override
-    public List<Product> getAllProductsByMaximumPrice(Double maximumPrice) {
-        return productRepository.findAllByPriceLessThanEqual(maximumPrice);
-    }
-
-    @Override
-    public List<Product> getAllProductsByMinimumAndMaximumPrice(Double minimumPrice, Double maximumPrice) {
-        return productRepository.findAllByPriceBetween(minimumPrice, maximumPrice);
+    public List<Product> filterAllProductsByPriceAndName(Double minimumPrice, Double maximumPrice, String character) {
+        if (minimumPrice == null) {
+            minimumPrice = 0.0;
+        }
+        if (maximumPrice == null) {
+            maximumPrice = Double.MAX_VALUE;
+        }
+        if (character == null) {
+            character = "";
+        }
+        return productRepository.findAllByPriceBetweenAndNameContainingIgnoreCase(minimumPrice, maximumPrice, character.trim());
     }
 
     @Override
