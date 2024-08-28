@@ -52,34 +52,11 @@ public class ProductController {
 
     @GetMapping(value = "/list")
     public String productListView(
-            @RequestParam(value = "character", defaultValue = "") String character,
+            @RequestParam(value = "minimumPrice", required = false) Double minimumPrice,
+            @RequestParam(value = "maximumPrice", required = false) Double maximumPrice,
+            @RequestParam(value = "character", required = false) String character,
             Model model) {
-        List<Product> productList;
-        if (!character.isEmpty()) {
-            productList = productService.getAllProductsByName(character);
-        } else {
-            productList = productService.getAllProducts();
-        }
-        model.addAttribute("productList", productList);
-        return "product/product-list";
-    }
-
-    @GetMapping(value = "/list/search-by-price")
-    public String productListByPriceView(
-            @RequestParam(value = "minimumPrice") String minimumPrice,
-            @RequestParam(value = "maximumPrice") String maximumPrice,
-            Model model) {
-        List<Product> productList;
-        if (!minimumPrice.isEmpty() && !maximumPrice.isEmpty()) {
-            productList = productService.getAllProductsByMinimumAndMaximumPrice(Double.parseDouble(minimumPrice),
-                    Double.parseDouble(maximumPrice));
-        } else if (!minimumPrice.isEmpty()) {
-            productList = productService.getAllProductsByMinimumPrice(Double.parseDouble(minimumPrice));
-        } else if (!maximumPrice.isEmpty()) {
-            productList = productService.getAllProductsByMaximumPrice(Double.parseDouble(maximumPrice));
-        } else {
-            productList = productService.getAllProducts();
-        }
+        List<Product> productList = productService.filterAllProductsByPriceAndName(minimumPrice, maximumPrice, character);
         model.addAttribute("productList", productList);
         return "product/product-list";
     }
