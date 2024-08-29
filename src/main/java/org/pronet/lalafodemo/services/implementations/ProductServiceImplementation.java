@@ -19,7 +19,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -100,7 +99,6 @@ public class ProductServiceImplementation implements ProductService {
             foundedProduct.setImageName(imageName);
             foundedProduct.setPrice(product.getPrice());
             foundedProduct.setCategory(category);
-            foundedProduct.setCreatedDateTime(LocalDateTime.now());
             productRepository.save(foundedProduct);
             if (!file.isEmpty()) {
                 File savedFile = new ClassPathResource("static/").getFile();

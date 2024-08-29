@@ -1,10 +1,13 @@
 package org.pronet.lalafodemo.services.implementations;
 
+import org.pronet.lalafodemo.entities.Role;
 import org.pronet.lalafodemo.entities.User;
+import org.pronet.lalafodemo.enums.AuthenticationType;
 import org.pronet.lalafodemo.repositories.UserRepository;
 import org.pronet.lalafodemo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +17,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,13 +24,17 @@ public class UserServiceImplementation implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public void createUser(User user) {
         User newUser = new User();
         newUser.setFirstName(user.getFirstName());
         newUser.setLastName(user.getLastName());
         newUser.setEmail(user.getEmail());
-        newUser.setPassword(user.getPassword());
+        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        newUser.setRole(new Role(2, AuthenticationType.Customer.name()));
         userRepository.save(newUser);
     }
 
@@ -59,14 +65,13 @@ public class UserServiceImplementation implements UserService {
         foundedUser.setUsername(user.getUsername().trim());
         foundedUser.setBirthDate(user.getBirthDate());
         foundedUser.setImageName(imageName);
-        foundedUser.setCreatedDateTime(LocalDateTime.now());
         userRepository.save(foundedUser);
         if (!file.isEmpty()) {
             File savedFile = new ClassPathResource("static/").getFile();
             Path path = Paths.get(
                     savedFile.getAbsolutePath() +
                             File.separator +
-                            "profile-images" +
+                            "customer-images" +
                             File.separator +
                             file.getOriginalFilename());
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
