@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base/layout::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Giriş</title>
+</head>
+<body>
+<section>
+    <div class="container-fluid p-5 mt-5">
+        <h2>Giriş</h2>
+        <div th:if="${param.error}"
+             class="alert alert-danger alert-dismissible fade show" role="alert">
+            [[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div th:if="${param.logout}"
+             class="alert alert-success alert-dismissible fade show" role="alert">
+            Hesabınızdan uğurla çıxış etdiniz!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <form method="post" action="/login">
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="username"></label>
+                    <input type="email" class="form-control" id="username" name="username" placeholder="Email ünvanı" required>
+                </div>
+                <div class="col">
+                    <label for="password"></label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Şifrə" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-outline-primary mt-3">Daxil ol</button>
+        </form>
+    </div>
+</section>
+</body>
+</html>
