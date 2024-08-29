@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,19 +14,17 @@ public class Category {
     private String name;
     private String imageName;
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Product> productList = new ArrayList<>();
+    private List<Product> productList;
     @CreationTimestamp
     private LocalDateTime createdDateTime;
 
     public Category() {
     }
 
-    public Category(Long id, String name, String imageName, List<Product> productList, LocalDateTime createdDateTime) {
+    public Category(Long id, String name, String imageName) {
         this.id = id;
         this.name = name;
         this.imageName = imageName;
-        this.productList = productList;
-        this.createdDateTime = createdDateTime;
     }
 
     public Long getId() {
@@ -52,21 +49,5 @@ public class Category {
 
     public void setImageName(String imageName) {
         this.imageName = imageName;
-    }
-
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-    }
-
-    public LocalDateTime getCreatedDateTime() {
-        return createdDateTime;
-    }
-
-    public void setCreatedDateTime(LocalDateTime createdDateTime) {
-        this.createdDateTime = createdDateTime;
     }
 }

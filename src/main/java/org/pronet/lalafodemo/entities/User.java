@@ -25,7 +25,7 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String username, String email, String password, String birthDate, String imageName, Role role, LocalDateTime createdDateTime) {
+    public User(Long id, String firstName, String lastName, String username, String email, String password, String birthDate, String imageName, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -35,7 +35,6 @@ public class User {
         this.birthDate = birthDate;
         this.imageName = imageName;
         this.role = role;
-        this.createdDateTime = createdDateTime;
     }
 
     public Long getId() {
@@ -108,13 +107,5 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public LocalDateTime getCreatedDateTime() {
-        return createdDateTime;
-    }
-
-    public void setCreatedDateTime(LocalDateTime createdDateTime) {
-        this.createdDateTime = createdDateTime;
     }
 }

@@ -24,7 +24,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String name, String status, String location, String mobileNumber, String imageName, Double price, Category category, LocalDateTime createdDateTime) {
+    public Product(Long id, String name, String status, String location, String mobileNumber, String imageName, Double price, Category category) {
         this.id = id;
         this.name = name;
         this.status = status;
@@ -33,7 +33,6 @@ public class Product {
         this.imageName = imageName;
         this.price = price;
         this.category = category;
-        this.createdDateTime = createdDateTime;
     }
 
     public Long getId() {
@@ -98,13 +97,5 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public LocalDateTime getCreatedDateTime() {
-        return createdDateTime;
-    }
-
-    public void setCreatedDateTime(LocalDateTime createdDateTime) {
-        this.createdDateTime = createdDateTime;
     }
 }
