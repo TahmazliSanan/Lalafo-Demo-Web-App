@@ -10,22 +10,18 @@
 <section>
     <div class="container-fluid p-5 mt-5">
         <h2>Qeydiyyat</h2>
-        <th:block th:if="${session.successMessage}">
-            <div class="alert alert-success alert-dismissible fade show"
-                 role="alert">
-                [[${session.successMessage}]]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+        <div th:if="${session.successMessage}" class="alert alert-success alert-dismissible fade show"
+             role="alert">
+            [[${session.successMessage}]]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
-        </th:block>
-        <th:block th:if="${session.errorMessage}">
-            <div class="alert alert-danger alert-dismissible fade show"
-                 role="alert">
-                [[${session.errorMessage}]]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+        </div>
+        <div th:if="${session.errorMessage}" class="alert alert-danger alert-dismissible fade show"
+             role="alert">
+            [[${session.errorMessage}]]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
-        </th:block>
+        </div>
         <form method="post" action="/auth/register">
             <div class="row mt-3">
                 <div class="col">

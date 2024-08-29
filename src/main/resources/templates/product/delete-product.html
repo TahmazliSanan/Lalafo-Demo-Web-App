@@ -11,6 +11,12 @@
 <section>
     <div class="container-fluid p-5 mt-5">
         <h2>Məhsulu silməyə əminsinizmi?</h2>
+        <div th:if="${session.errorMessage}" class="alert alert-danger alert-dismissible fade show"
+             role="alert">
+            [[${session.errorMessage}]]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
+        </div>
         <img th:src="@{'/product-images/' + ${foundedProduct.imageName}}"
              class="border p-2" style="width: 110px; height: 110px; border-radius: 50%;" alt="">
         <form method="post" action="/product/delete">
