@@ -34,12 +34,24 @@
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" href="/auth/registration-view">Qeydiyyat</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/auth/login-view">Giriş</a>
-                </li>
+                <th:block th:if="${foundedUser == null}">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/auth/registration-view">Qeydiyyat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/auth/login-view">Giriş</a>
+                    </li>
+                </th:block>
+                <th:block th:unless="${foundedUser == null}">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/profile/view">
+                            [[${foundedUser.firstName + ' ' + foundedUser.lastName}]]
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/logout">Çıxış</a>
+                    </li>
+                </th:block>
             </ul>
         </div>
     </div>
