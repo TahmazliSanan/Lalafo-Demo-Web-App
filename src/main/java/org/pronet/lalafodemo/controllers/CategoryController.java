@@ -3,8 +3,10 @@ package org.pronet.lalafodemo.controllers;
 import jakarta.servlet.http.HttpSession;
 import org.pronet.lalafodemo.entities.Category;
 import org.pronet.lalafodemo.entities.Product;
+import org.pronet.lalafodemo.entities.User;
 import org.pronet.lalafodemo.services.CategoryService;
 import org.pronet.lalafodemo.services.ProductService;
+import org.pronet.lalafodemo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 
 @Controller
 @RequestMapping(value = "/category")
@@ -22,6 +25,23 @@ public class CategoryController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private UserService userService;
+
+    @ModelAttribute
+    public User getLoggedInUserDetails(
+            Principal principal,
+            Model model) {
+        if (principal != null) {
+            String email = principal.getName();
+            User foundedUser = userService.getUserByEmail(email);
+            model.addAttribute("foundedUser", foundedUser);
+            return foundedUser;
+        } else {
+            return null;
+        }
+    }
 
     @GetMapping(value = "/create-view")
     public String createCategoryView() {
