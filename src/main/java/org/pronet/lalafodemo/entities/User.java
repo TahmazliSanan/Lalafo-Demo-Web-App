@@ -3,6 +3,7 @@ package org.pronet.lalafodemo.entities;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,7 +16,7 @@ public class User {
     private String username;
     private String email;
     private String password;
-    private String birthDate;
+    private LocalDate birthDate;
     private String imageName;
     @ManyToOne
     private Role role;
@@ -25,7 +26,7 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String username, String email, String password, String birthDate, String imageName, Role role) {
+    public User(Long id, String firstName, String lastName, String username, String email, String password, LocalDate birthDate, String imageName, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -85,11 +86,11 @@ public class User {
         this.password = password;
     }
 
-    public String getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
