@@ -109,4 +109,12 @@ public class Product {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
+    }
+
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
+    }
 }
