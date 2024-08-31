@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base/layout::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Hesabı sil</title>
+</head>
+<body>
+<section>
+    <div class="container-fluid p-5 mt-5">
+        <h2>Hesabınızı silməyə əminsinizmi?</h2>
+        <div th:if="${session.successMessage}" class="alert alert-success alert-dismissible fade show"
+             role="alert">
+            [[${session.successMessage}]]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
+        </div>
+        <div th:if="${session.errorMessage}" class="alert alert-danger alert-dismissible fade show"
+             role="alert">
+            [[${session.errorMessage}]]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
+        </div>
+        <img th:src="@{'/customer-images/' + ${loggedInUser.imageName}}"
+             class="border p-2" style="width: 110px; height: 110px; border-radius: 50%;" alt="">
+        <form method="post" action="/auth/delete">
+            <input type="hidden" th:value="${loggedInUser.id}" id="id" name="id">
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="firstName">Ad</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName"
+                           th:value="${loggedInUser.firstName}" placeholder="Ad" disabled>
+                </div>
+                <div class="col">
+                    <label for="lastName">Soyad</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName"
+                           th:value="${loggedInUser.lastName}" placeholder="Soyad" disabled>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="username">İstifadəçi adı</label>
+                    <input type="text" class="form-control" id="username" name="username"
+                           th:value="${loggedInUser.username}" placeholder="İstifadəçi adı" disabled>
+                </div>
+                <div class="col">
+                    <label for="email">Email ünvanı</label>
+                    <input type="email" class="form-control" id="email" name="email"
+                           th:value="${loggedInUser.email}" placeholder="Email ünvanı" disabled>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="birthDate">Doğulduğu tarix</label>
+                    <input type="date" class="form-control" id="birthDate" name="birthDate"
+                           th:value="${loggedInUser.birthDate}" disabled>
+                </div>
+                <div class="col">
+                    <label for="file">Şəkil</label>
+                    <input type="file" class="form-control" id="file" name="file" disabled>
+                </div>
+            </div>
+            <div class="mt-2">
+                <button type="submit" class="btn btn-outline-danger">Bəli</button>
+                <a class="btn btn-outline-dark" href="/profile/view">Xeyr</a>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>
