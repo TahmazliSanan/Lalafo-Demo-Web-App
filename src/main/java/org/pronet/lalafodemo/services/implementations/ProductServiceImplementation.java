@@ -2,8 +2,10 @@ package org.pronet.lalafodemo.services.implementations;
 
 import org.pronet.lalafodemo.entities.Category;
 import org.pronet.lalafodemo.entities.Product;
+import org.pronet.lalafodemo.entities.User;
 import org.pronet.lalafodemo.repositories.CategoryRepository;
 import org.pronet.lalafodemo.repositories.ProductRepository;
+import org.pronet.lalafodemo.repositories.UserRepository;
 import org.pronet.lalafodemo.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -29,11 +31,17 @@ public class ProductServiceImplementation implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
-    public void createProduct(Product product, MultipartFile file, Long categoryId) throws IOException {
+    public void createProduct(Product product, MultipartFile file, Long categoryId, Long userId)
+            throws IOException {
         Optional<Category> foundedCategory = categoryRepository.findById(categoryId);
-        if (foundedCategory.isPresent()) {
+        Optional<User> foundedUser = userRepository.findById(userId);
+        if (foundedCategory.isPresent() && foundedUser.isPresent()) {
             Category existCategory = foundedCategory.get();
+            User existUser = foundedUser.get();
             Product newProduct = new Product();
             newProduct.setName(product.getName().trim());
             newProduct.setStatus(product.getStatus().trim());
@@ -42,6 +50,7 @@ public class ProductServiceImplementation implements ProductService {
             newProduct.setImageName(file.getOriginalFilename());
             newProduct.setPrice(product.getPrice());
             newProduct.setCategory(existCategory);
+            newProduct.setUser(existUser);
             productRepository.save(newProduct);
             if (!file.isEmpty()) {
                 File savedFile = new ClassPathResource("static/").getFile();
@@ -66,6 +75,15 @@ public class ProductServiceImplementation implements ProductService {
     public Page<Product> getAllProductsByCategoryId(Long categoryId, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
         return productRepository.findAllByCategoryId(categoryId, pageable);
+    }
+
+    @Override
+    public Page<Product> getAllProductsByNameAndUserId(String character, Long userId, Integer page, Integer size) {
+        if (character == null) {
+            character = "";
+        }
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findAllByNameContainingIgnoreCaseAndUserId(character.trim(), userId, pageable);
     }
 
     @Override
