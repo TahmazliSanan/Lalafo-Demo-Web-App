@@ -32,6 +32,15 @@ public class ProfileController {
         }
     }
 
+    private User getLoggedInUserDetails(Principal principal) {
+        if (principal != null) {
+            String email = principal.getName();
+            return userService.getUserByEmail(email);
+        } else {
+            return null;
+        }
+    }
+
     @GetMapping(value = "/view")
     public String myProfileView(
             Principal principal,
@@ -48,6 +57,16 @@ public class ProfileController {
             HttpSession session) throws IOException {
         userService.updateUser(user, file);
         session.setAttribute("successMessage", "Profiliniz uğurla yeniləndi!");
+        return "redirect:/profile/view";
+    }
+
+    @GetMapping(value = "/delete-profile-image")
+    public String deleteProfileImage(
+            Principal principal,
+            HttpSession session) {
+        User user = getLoggedInUserDetails(principal);
+        userService.deleteProfilePhoto(user.getId());
+        session.setAttribute("successMessage", "Profil şəkliniz uğurla yeniləndi");
         return "redirect:/profile/view";
     }
 }
