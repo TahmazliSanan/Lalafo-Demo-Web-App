@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class User {
@@ -18,6 +19,8 @@ public class User {
     private String password;
     private LocalDate birthDate;
     private String imageName;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> productList;
     @ManyToOne
     private Role role;
     @CreationTimestamp
@@ -26,7 +29,7 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String username, String email, String password, LocalDate birthDate, String imageName, Role role) {
+    public User(Long id, String firstName, String lastName, String username, String email, String password, LocalDate birthDate, String imageName, List<Product> productList, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -35,6 +38,7 @@ public class User {
         this.password = password;
         this.birthDate = birthDate;
         this.imageName = imageName;
+        this.productList = productList;
         this.role = role;
     }
 
@@ -100,6 +104,14 @@ public class User {
 
     public void setImageName(String imageName) {
         this.imageName = imageName;
+    }
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
     }
 
     public Role getRole() {

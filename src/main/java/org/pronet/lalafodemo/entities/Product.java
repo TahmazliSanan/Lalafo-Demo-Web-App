@@ -18,13 +18,15 @@ public class Product {
     private Double price;
     @ManyToOne
     private Category category;
+    @ManyToOne
+    private User user;
     @CreationTimestamp
     private LocalDateTime createdDateTime;
 
     public Product() {
     }
 
-    public Product(Long id, String name, String status, String location, String mobileNumber, String imageName, Double price, Category category) {
+    public Product(Long id, String name, String status, String location, String mobileNumber, String imageName, Double price, Category category, User user) {
         this.id = id;
         this.name = name;
         this.status = status;
@@ -33,6 +35,7 @@ public class Product {
         this.imageName = imageName;
         this.price = price;
         this.category = category;
+        this.user = user;
     }
 
     public Long getId() {
@@ -97,5 +100,13 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
