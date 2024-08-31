@@ -13,5 +13,6 @@ public interface UserService {
     List<User> getAllUsers();
     void updateUser(User user, MultipartFile file) throws IOException;
     void deleteUserById(Long id);
+    void deleteProfilePhoto(Long id);
     Boolean isExistUserByEmail(String email);
 }

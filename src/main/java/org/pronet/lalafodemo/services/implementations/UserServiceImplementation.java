@@ -85,6 +85,13 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    public void deleteProfilePhoto(Long id) {
+        User foundedUser = getUserById(id);
+        foundedUser.setImageName(null);
+        userRepository.save(foundedUser);
+    }
+
+    @Override
     public Boolean isExistUserByEmail(String email) {
         return userRepository.existsByEmailContainingIgnoreCase(email.trim());
     }
