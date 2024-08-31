@@ -63,6 +63,12 @@
             </div>
             <button type="submit" class="btn btn-outline-success mt-3">Yenilə</button>
         </form>
+        <form th:if="${loggedInUser.imageName != null &&
+                        !loggedInUser.imageName.isBlank() &&
+                        !loggedInUser.imageName.isEmpty()}" method="get" action="/profile/delete-profile-image">
+            <input type="hidden" th:value="${loggedInUser.id}" name="id">
+            <button class="btn btn-outline-danger mt-3">Şəkli sil</button>
+        </form>
     </div>
 </section>
 </body>
