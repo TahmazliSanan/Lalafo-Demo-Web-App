@@ -20,6 +20,7 @@ public class AuthenticationTypeMatcher {
     public static final String[] CUSTOMER_AUTH_ROUTES = {
             "/category/{id}/product-list",
             "/product/create-view", "/product/create",
+            "/product/list/my-products",
             "/product/details/{id}",
             "/product/update-view/{id}", "/product/update",
             "/product/delete-view/{id}", "/product/delete",
