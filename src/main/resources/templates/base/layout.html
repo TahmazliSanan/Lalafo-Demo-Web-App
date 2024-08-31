@@ -44,6 +44,11 @@
                 </th:block>
                 <th:block th:unless="${foundedUser == null}">
                     <li class="nav-item">
+                        <a class="nav-link active" href="/product/list/my-products">
+                            Mənim məhsullarım
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link active" href="/profile/view">
                             [[${foundedUser.firstName + ' ' + foundedUser.lastName}]]
                         </a>
