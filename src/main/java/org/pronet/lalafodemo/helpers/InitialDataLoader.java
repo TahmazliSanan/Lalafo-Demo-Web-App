@@ -10,6 +10,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Component
 public class InitialDataLoader implements CommandLineRunner {
     @Autowired
@@ -45,6 +47,7 @@ public class InitialDataLoader implements CommandLineRunner {
                     passwordEncoder.encode("123456789"),
                     null,
                     null,
+                    new ArrayList<>(),
                     new Role(1, AuthenticationType.Admin.name()));
             userRepository.save(admin);
         }
