@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findAllByCategoryId(Long categoryId, Pageable pageable);
+    Page<Product> findAllByNameContainingIgnoreCaseAndUserId(String character, Long userId, Pageable pageable);
     Page<Product> findAllByPriceBetweenAndNameContainingIgnoreCase(Double minimumPrice, Double maximumPrice, String character, Pageable pageable);
 }
