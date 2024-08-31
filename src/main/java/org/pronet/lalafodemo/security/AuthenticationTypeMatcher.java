@@ -4,7 +4,7 @@ public class AuthenticationTypeMatcher {
     public static final String[] NON_AUTH_ROUTES = {
             "/category-images/**", "/product-images/**", "/customer-images/**",
             "/",
-            "/auth/**",
+            "/auth/registration-view", "/auth/register", "/auth/login-view",
             "/category/list-for-user",
             "/product/list"
     };
@@ -22,7 +22,8 @@ public class AuthenticationTypeMatcher {
             "/product/create-view", "/product/create",
             "/product/details/{id}",
             "/product/update-view/{id}", "/product/update",
-            "/product/delete-view/{id}", "/product/delete"
+            "/product/delete-view/{id}", "/product/delete",
+            "/auth/delete-view", "/auth/delete"
     };
 
     public static final String[] ADMIN_AND_CUSTOMER_AUTH_ROUTES = {
