@@ -44,6 +44,15 @@ public class ProductController {
         }
     }
 
+    private User getLoggedInUserDetails(Principal principal) {
+        if (principal != null) {
+            String email = principal.getName();
+            return userService.getUserByEmail(email);
+        } else {
+            return null;
+        }
+    }
+
     @GetMapping(value = "/create-view")
     public String createProductView(Model model) {
         List<Category> categoryList = categoryService.getAllCategories();
@@ -56,8 +65,10 @@ public class ProductController {
             @RequestParam(value = "categoryId") Long categoryId,
             @ModelAttribute(value = "product") Product product,
             @RequestParam(value = "file") MultipartFile file,
+            Principal principal,
             HttpSession session) throws IOException {
-        productService.createProduct(product, file, categoryId);
+        User loggedInUser = getLoggedInUserDetails(principal);
+        productService.createProduct(product, file, categoryId, loggedInUser.getId());
         session.setAttribute("successMessage", "Məhsul uğurla paylaşıldı!");
         return "redirect:/product/create-view";
     }
@@ -87,6 +98,22 @@ public class ProductController {
         model.addAttribute("size", size);
         model.addAttribute("productList", productList);
         return "product/product-list";
+    }
+
+    @GetMapping(value = "/list/my-products")
+    public String myProductListView(
+            @RequestParam(value = "character", required = false) String character,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            Principal principal,
+            Model model) {
+        User loggedInUser = getLoggedInUserDetails(principal);
+        Page<Product> productList = productService.getAllProductsByNameAndUserId(character, loggedInUser.getId(), page, size);
+        model.addAttribute("character", character);
+        model.addAttribute("page", page);
+        model.addAttribute("size", size);
+        model.addAttribute("productList", productList);
+        return "product/my-product-list";
     }
 
     @GetMapping(value = "/update-view/{id}")
@@ -143,6 +170,6 @@ public class ProductController {
             HttpSession session) {
         productService.deleteProductById(id);
         session.setAttribute("successMessage", "Elan uğurla silindi!");
-        return "redirect:/product/list";
+        return "redirect:/product/list/my-products";
     }
 }
