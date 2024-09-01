@@ -17,7 +17,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
 
 @Service
 public class UserServiceImplementation implements UserService {
@@ -51,11 +50,6 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    @Override
     public void updateUser(User user, MultipartFile file)
             throws IOException {
         User foundedUser = getUserById(user.getId());
@@ -76,6 +70,13 @@ public class UserServiceImplementation implements UserService {
                             file.getOriginalFilename());
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         }
+    }
+
+    @Override
+    public void updatePassword(String newPassword, Long userId) {
+        User user = getUserById(userId);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 
     @Override
