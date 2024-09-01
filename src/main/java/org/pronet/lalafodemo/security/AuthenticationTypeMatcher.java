@@ -28,6 +28,7 @@ public class AuthenticationTypeMatcher {
     };
 
     public static final String[] ADMIN_AND_CUSTOMER_AUTH_ROUTES = {
-            "/profile/**"
+            "/profile/**",
+            "/auth/change-account-password-view", "/auth/change-account-password"
     };
 }
