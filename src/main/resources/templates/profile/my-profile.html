@@ -22,8 +22,14 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
         </div>
-        <img th:src="@{'/customer-images/' + ${loggedInUser.imageName}}"
-             class="border p-2" style="width: 110px; height: 110px; border-radius: 50%;" alt="">
+        <img th:if="${loggedInUser.imageName != null &&
+                        !loggedInUser.imageName.isBlank() &&
+                        !loggedInUser.imageName.isEmpty()}"
+             th:src="@{'/customer-images/' + ${loggedInUser.imageName}}" class="border p-2" style="width: 110px; height: 110px; border-radius: 50%;" alt="">
+        <img th:if="${loggedInUser.imageName == null ||
+                        loggedInUser.imageName.isBlank() ||
+                        loggedInUser.imageName.isEmpty()}"
+             src="/customer-images/no-profile.jpg" class="border p-2" style="width: 110px; height: 110px; border-radius: 50%;" alt="">
         <form method="post" action="/profile/update" enctype="multipart/form-data">
             <input type="hidden" th:value="${loggedInUser.id}" id="id" name="id">
             <div class="row mt-3">
