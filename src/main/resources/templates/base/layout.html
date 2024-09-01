@@ -43,7 +43,7 @@
                     </li>
                 </th:block>
                 <th:block th:unless="${foundedUser == null}">
-                    <li class="nav-item">
+                    <li th:if="${foundedUser.role.name == 'Customer'}" class="nav-item">
                         <a class="nav-link active" href="/product/list/my-products">
                             Mənim məhsullarım
                         </a>
