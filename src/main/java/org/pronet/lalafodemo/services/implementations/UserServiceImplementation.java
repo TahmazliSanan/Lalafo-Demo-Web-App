@@ -4,7 +4,9 @@ import org.pronet.lalafodemo.entities.Role;
 import org.pronet.lalafodemo.entities.User;
 import org.pronet.lalafodemo.enums.AuthenticationType;
 import org.pronet.lalafodemo.repositories.UserRepository;
+import org.pronet.lalafodemo.services.EmailService;
 import org.pronet.lalafodemo.services.UserService;
+import org.pronet.lalafodemo.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +28,9 @@ public class UserServiceImplementation implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public void createUser(User user) {
         User newUser = new User();
@@ -34,6 +39,8 @@ public class UserServiceImplementation implements UserService {
         newUser.setEmail(user.getEmail());
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         newUser.setRole(new Role(2, AuthenticationType.Customer.name()));
+        newUser.setResetToken(null);
+        newUser.setTokenExpirationDate(null);
         userRepository.save(newUser);
     }
 
@@ -50,6 +57,11 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    public User getUserByResetToken(String resetToken) {
+        return userRepository.findByResetToken(resetToken);
+    }
+
+    @Override
     public void updateUser(User user, MultipartFile file)
             throws IOException {
         User foundedUser = getUserById(user.getId());
@@ -59,6 +71,8 @@ public class UserServiceImplementation implements UserService {
         foundedUser.setUsername(user.getUsername().trim());
         foundedUser.setBirthDate(user.getBirthDate());
         foundedUser.setImageName(imageName);
+        foundedUser.setResetToken(null);
+        foundedUser.setTokenExpirationDate(null);
         userRepository.save(foundedUser);
         if (!file.isEmpty()) {
             File savedFile = new ClassPathResource("static/").getFile();
@@ -80,6 +94,17 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    public void updatePasswordByToken(String token, String newPassword) {
+        User user = userRepository.findByResetToken(token);
+        if (user != null) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            user.setResetToken(null);
+            user.setTokenExpirationDate(null);
+            userRepository.save(user);
+        }
+    }
+
+    @Override
     public void deleteUserById(Long id) {
         User user = getUserById(id);
         userRepository.delete(user);
@@ -90,6 +115,17 @@ public class UserServiceImplementation implements UserService {
         User foundedUser = getUserById(id);
         foundedUser.setImageName(null);
         userRepository.save(foundedUser);
+    }
+
+    @Override
+    public void processForgotPassword(String email) {
+        User user = userRepository.findByEmailContainingIgnoreCase(email.trim());
+        String token = TokenUtil.generateResetToken();
+        user.setResetToken(token);
+        user.setTokenExpirationDate(TokenUtil.calculateTokenExpiryDate(60));
+        userRepository.save(user);
+        String resetLink = "http://localhost:8080/auth/reset-password-view?token=" + token;
+        emailService.sendResetPasswordLink(email, resetLink);
     }
 
     @Override
