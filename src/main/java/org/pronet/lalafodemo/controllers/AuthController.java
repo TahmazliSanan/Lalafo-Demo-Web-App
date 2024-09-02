@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Date;
 
 @Controller
 @RequestMapping(value = "/auth")
@@ -116,5 +117,53 @@ public class AuthController {
             session.setAttribute("errorMessage", "Daxil etdiyiniz şifrə doğru deyil!");
         }
         return "redirect:/auth/change-account-password-view";
+    }
+
+    @GetMapping(value = "/forgot-password-view")
+    public String forgotPasswordView() {
+        return "auth/forgot-password";
+    }
+
+    @PostMapping("/forgot-password")
+    public String forgotPassword(
+            @RequestParam(value = "email") String email,
+            HttpSession session) {
+        Boolean isExistUser = userService.isExistUserByEmail(email);
+        if (isExistUser) {
+            userService.processForgotPassword(email);
+            session.setAttribute("successMessage", "Link " + email + " email ünvanına göndərildi!");
+        } else {
+            session.setAttribute("errorMessage", "Email ünvanı mövcud deyil!");
+        }
+        return "redirect:/auth/forgot-password-view";
+    }
+
+    @GetMapping(value = "/reset-password-view")
+    public String resetPasswordView(
+            @RequestParam(value = "token") String token,
+            Model model,
+            HttpSession session) {
+        User user = userService.getUserByResetToken(token);
+        if (user == null || user.getTokenExpirationDate().before(new Date())) {
+            session.setAttribute("errorMessage", "Link yanlış və ya vaxtı bitmişdir!");
+            return "auth/reset-password";
+        }
+        model.addAttribute("token", token);
+        return "auth/reset-password";
+    }
+
+    @PostMapping(value = "/reset-password")
+    public String processResetPassword(
+            @RequestParam(value = "token") String token,
+            @RequestParam(value = "newPassword") String newPassword,
+            @RequestParam(value = "confirmPassword") String confirmPassword,
+            HttpSession session) {
+        if (!newPassword.equals(confirmPassword)) {
+            session.setAttribute("errorMessage", "Şifrələr bir-birinə uyğun deyil!");
+        } else {
+            userService.updatePasswordByToken(token, newPassword);
+            session.setAttribute("successMessage", "Şifrəniz uğurla yeniləndi!");
+        }
+        return "redirect:/auth/reset-password-view?token=" + token;
     }
 }
