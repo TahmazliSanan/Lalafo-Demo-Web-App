@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,13 +24,18 @@ public class User {
     private List<Product> productList;
     @ManyToOne
     private Role role;
+    private String resetToken;
+    private Date tokenExpirationDate;
     @CreationTimestamp
     private LocalDateTime createdDateTime;
 
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String username, String email, String password, LocalDate birthDate, String imageName, List<Product> productList, Role role) {
+    public User(
+            Long id, String firstName, String lastName, String username,
+            String email, String password, LocalDate birthDate, String imageName,
+            List<Product> productList, Role role, String resetToken, Date tokenExpirationDate) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,6 +46,8 @@ public class User {
         this.imageName = imageName;
         this.productList = productList;
         this.role = role;
+        this.resetToken = resetToken;
+        this.tokenExpirationDate = tokenExpirationDate;
     }
 
     public Long getId() {
@@ -120,5 +128,21 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
+
+    public Date getTokenExpirationDate() {
+        return tokenExpirationDate;
+    }
+
+    public void setTokenExpirationDate(Date tokenExpirationDate) {
+        this.tokenExpirationDate = tokenExpirationDate;
     }
 }
