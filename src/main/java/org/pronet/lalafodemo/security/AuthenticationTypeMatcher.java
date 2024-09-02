@@ -5,6 +5,8 @@ public class AuthenticationTypeMatcher {
             "/category-images/**", "/product-images/**", "/customer-images/**",
             "/",
             "/auth/registration-view", "/auth/register", "/auth/login-view",
+            "/auth/forgot-password-view", "/auth/forgot-password",
+            "/auth/reset-password-view", "/auth/reset-password",
             "/category/list-for-user",
             "/product/list"
     };
