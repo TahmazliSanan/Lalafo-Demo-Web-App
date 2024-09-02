@@ -48,7 +48,9 @@ public class InitialDataLoader implements CommandLineRunner {
                     null,
                     null,
                     new ArrayList<>(),
-                    new Role(1, AuthenticationType.Admin.name()));
+                    new Role(1, AuthenticationType.Admin.name()),
+                    null,
+                    null);
             userRepository.save(admin);
         }
     }
