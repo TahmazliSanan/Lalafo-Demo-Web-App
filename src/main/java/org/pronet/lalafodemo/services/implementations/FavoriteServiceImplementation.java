@@ -8,9 +8,12 @@ import org.pronet.lalafodemo.repositories.ProductRepository;
 import org.pronet.lalafodemo.repositories.UserRepository;
 import org.pronet.lalafodemo.services.FavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,8 +45,22 @@ public class FavoriteServiceImplementation implements FavoriteService {
     }
 
     @Override
-    public List<Favorite> getFavoriteListByUserId(Long userId) {
-        return favoriteRepository.findAllByUserId(userId);
+    public Page<Favorite> filterFavoriteList(Long userId, String name, Double minimumPrice, Double maximumPrice, String status, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        if (minimumPrice == null) {
+            minimumPrice = 0.0;
+        }
+        if (maximumPrice == null) {
+            maximumPrice = Double.MAX_VALUE;
+        }
+        if (name == null) {
+            name = "";
+        }
+        if (!StringUtils.hasText(status) || status.equalsIgnoreCase("Hamısı")) {
+            return favoriteRepository.findAllFavoriteListByFilters(userId, name.trim(), minimumPrice, maximumPrice, pageable);
+        } else {
+            return favoriteRepository.findAllFavoriteListByFiltersUsingStatus(userId, name.trim(), minimumPrice, maximumPrice, status, pageable);
+        }
     }
 
     @Override
