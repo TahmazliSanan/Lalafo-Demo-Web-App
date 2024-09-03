@@ -62,7 +62,10 @@
             <input type="hidden" name="productId" th:value="${foundedProduct.id}">
             <button type="submit" class="btn btn-outline-warning">Seçilmişlərə əlavə et</button>
           </form>
-          <a th:unless="${!isExistProductInFavoriteList}" href="#" class="btn btn-outline-danger">Seçilmişlərdən sil</a>
+          <form th:unless="${!isExistProductInFavoriteList}" action="/favorite-list/remove-from-favorites" method="post">
+            <input type="hidden" name="productId" th:value="${foundedProduct.id}">
+            <button type="submit" class="btn btn-outline-danger">Seçilmişlərdən sil</button>
+          </form>
         </div>
       </div>
     </div>
