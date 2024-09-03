@@ -23,19 +23,36 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
         </div>
-        <a class="btn btn-outline-primary mb-4" href="/product/create-view">Məhsul paylaş</a>
-        <form class="d-flex ml-2 mb-3" role="search" method="get" action="/product/list">
-            <label for="minimumPrice" class="me-2">
-                <input class="form-control" type="number" id="minimumPrice"
-                       name="minimumPrice" placeholder="Minimum qiymət" step="0.1" min="0">
-            </label>
-            <label for="minimumPrice" class="me-2">
-                <input class="form-control" type="number" id="maximumPrice"
-                       name="maximumPrice" placeholder="Maksimum qiymət" step="0.1" min="0">
-            </label>
-            <input class="form-control me-2" type="search" id="character" name="character"
-                   placeholder="Elanın adını daxil edin" aria-label="Search">
-            <button class="btn btn-outline-secondary" type="submit">Axtar</button>
+        <a class="btn btn-outline-primary" href="/product/create-view">Məhsul paylaş</a>
+        <form role="search" method="get" action="/product/list">
+            <div class="row">
+                <div class="col">
+                    <label for="minimumPrice"></label>
+                    <input class="form-control" type="number" id="minimumPrice"
+                           name="minimumPrice" placeholder="Minimum qiymət" step="0.1" min="0">
+                </div>
+                <div class="col">
+                    <label for="maximumPrice"></label>
+                    <input class="form-control" type="number" id="maximumPrice"
+                           name="maximumPrice" placeholder="Maksimum qiymət" step="0.1" min="0">
+                </div>
+                <div class="col">
+                    <label for="status"></label>
+                    <select name="status" id="status" class="form-control mr-2">
+                        <option value="Hamısı" th:selected="${status == 'Hamısı'}">Hamısı</option>
+                        <option value="Yeni" th:selected="${status == 'Yeni'}">Yeni</option>
+                        <option value="İstifadə olunmuş" th:selected="${status == 'İstifadə olunmuş'}">İstifadə olunmuş</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="character"></label>
+                    <input class="form-control" type="search" id="character" name="character"
+                           placeholder="Elanın adını daxil edin" aria-label="Search">
+                    <button class="btn btn-outline-secondary mt-3 mb-2" type="submit">Axtar</button>
+                </div>
+            </div>
             <input type="hidden" id="page" name="page" value="0">
             <input type="hidden" id="size" name="size" value="50">
         </form>
@@ -46,7 +63,8 @@
                     <li class="page-item" th:classappend="${!productList.hasPrevious()} ? 'disabled'">
                         <a class="page-link"
                            th:href="@{/product/list(page=${productList.number - 1}, size=${productList.size},
-                                minimumPrice=${minimumPrice}, maximumPrice=${maximumPrice}, character=${character})}"
+                                minimumPrice=${minimumPrice}, maximumPrice=${maximumPrice},
+                                character=${character}, status=${status})}"
                                 aria-label="Previous">
                             &laquo;
                         </a>
@@ -55,13 +73,15 @@
                         th:classappend="${i == productList.number} ? 'active'">
                         <a class="page-link"
                            th:href="@{/product/list(page=${i}, size=${productList.size},
-                                minimumPrice=${minimumPrice}, maximumPrice=${maximumPrice}, character=${character})}"
+                                minimumPrice=${minimumPrice}, maximumPrice=${maximumPrice},
+                                character=${character}, status=${status})}"
                                 th:text="${i + 1}">1</a>
                     </li>
                     <li class="page-item" th:classappend="${!productList.hasNext()} ? 'disabled'">
                         <a class="page-link"
                                 th:href="@{/product/list(page=${productList.number + 1}, size=${productList.size},
-                                minimumPrice=${minimumPrice}, maximumPrice=${maximumPrice}, character=${character})}"
+                                minimumPrice=${minimumPrice}, maximumPrice=${maximumPrice},
+                                character=${character}, status=${status})}"
                                 aria-label="Next">
                             &raquo;
                         </a>
