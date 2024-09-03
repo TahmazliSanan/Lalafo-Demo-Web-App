@@ -26,7 +26,8 @@ public class AuthenticationTypeMatcher {
             "/product/details/{id}",
             "/product/update-view/{id}", "/product/update",
             "/product/delete-view/{id}", "/product/delete",
-            "/auth/delete-view", "/auth/delete"
+            "/auth/delete-view", "/auth/delete",
+            "/favorite-list/**"
     };
 
     public static final String[] ADMIN_AND_CUSTOMER_AUTH_ROUTES = {
