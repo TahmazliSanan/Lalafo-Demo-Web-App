@@ -1,9 +1,9 @@
 package org.pronet.lalafodemo.controllers;
 
 import jakarta.servlet.http.HttpSession;
-import org.pronet.lalafodemo.entities.Favorite;
+import org.pronet.lalafodemo.entities.FavoriteList;
 import org.pronet.lalafodemo.entities.User;
-import org.pronet.lalafodemo.services.FavoriteService;
+import org.pronet.lalafodemo.services.FavoriteListService;
 import org.pronet.lalafodemo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +17,7 @@ import java.security.Principal;
 @RequestMapping(value = "/favorite-list")
 public class FavoriteController {
     @Autowired
-    private FavoriteService favoriteService;
+    private FavoriteListService favoriteListService;
 
     @Autowired
     private UserService userService;
@@ -56,7 +56,7 @@ public class FavoriteController {
             Principal principal,
             Model model) {
         User loggedInUser = getLoggedInUserDetails(principal);
-        Page<Favorite> favoriteList = favoriteService.filterFavoriteList(loggedInUser.getId(), character, minimumPrice, maximumPrice, status, page, size);
+        Page<FavoriteList> favoriteList = favoriteListService.filterFavoriteList(loggedInUser.getId(), character, minimumPrice, maximumPrice, status, page, size);
         model.addAttribute("minimumPrice", minimumPrice);
         model.addAttribute("maximumPrice", maximumPrice);
         model.addAttribute("character", character);
@@ -73,8 +73,30 @@ public class FavoriteController {
             Principal principal,
             HttpSession session) {
         User loggedInUser = getLoggedInUserDetails(principal);
-        favoriteService.addProductToFavoriteList(loggedInUser.getId(), productId);
+        favoriteListService.addProductToFavoriteList(loggedInUser.getId(), productId);
         session.setAttribute("successMessage", "Məhsul seçilmişlər siyahısına uğurla əlavə olundu!");
         return "redirect:/product/details/" + productId;
+    }
+
+    @PostMapping(value = "/remove-from-favorites")
+    public String removeFromFavorites(
+            @RequestParam(value = "productId") Long productId,
+            Principal principal,
+            HttpSession session) {
+        User loggedInUser = getLoggedInUserDetails(principal);
+        favoriteListService.removeProductFromFavoriteList(loggedInUser.getId(), productId);
+        session.setAttribute("successMessage", "Məhsul seçilmişlər siyahısından uğurla silindi!");
+        return "redirect:/product/details/" + productId;
+    }
+
+    @PostMapping(value = "/remove-from-favorites-same-view")
+    public String removeFromFavoritesSameView(
+            @RequestParam(value = "productId") Long productId,
+            Principal principal,
+            HttpSession session) {
+        User loggedInUser = getLoggedInUserDetails(principal);
+        favoriteListService.removeProductFromFavoriteList(loggedInUser.getId(), productId);
+        session.setAttribute("successMessage", "Məhsul seçilmişlər siyahısından uğurla silindi!");
+        return "redirect:/favorite-list/view";
     }
 }
