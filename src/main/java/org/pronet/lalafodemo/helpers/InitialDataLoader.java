@@ -48,6 +48,7 @@ public class InitialDataLoader implements CommandLineRunner {
                     null,
                     null,
                     new ArrayList<>(),
+                    new ArrayList<>(),
                     new Role(1, AuthenticationType.Admin.name()),
                     null,
                     null);
