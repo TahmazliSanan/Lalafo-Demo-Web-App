@@ -87,13 +87,15 @@ public class ProductController {
             @RequestParam(value = "minimumPrice", required = false) Double minimumPrice,
             @RequestParam(value = "maximumPrice", required = false) Double maximumPrice,
             @RequestParam(value = "character", required = false) String character,
+            @RequestParam(value = "status", required = false, defaultValue = "Hamısı") String status,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "50") Integer size,
             Model model) {
-        Page<Product> productList = productService.filterAllProductsByPriceAndName(minimumPrice, maximumPrice, character, page, size);
+        Page<Product> productList = productService.filterAllProductsByPriceNameAndStatus(minimumPrice, maximumPrice, character, status, page, size);
         model.addAttribute("minimumPrice", minimumPrice);
         model.addAttribute("maximumPrice", maximumPrice);
         model.addAttribute("character", character);
+        model.addAttribute("status", status);
         model.addAttribute("page", page);
         model.addAttribute("size", size);
         model.addAttribute("productList", productList);
