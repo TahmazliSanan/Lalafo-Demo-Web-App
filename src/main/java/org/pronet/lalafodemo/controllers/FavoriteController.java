@@ -6,12 +6,12 @@ import org.pronet.lalafodemo.entities.User;
 import org.pronet.lalafodemo.services.FavoriteService;
 import org.pronet.lalafodemo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/favorite-list")
@@ -47,10 +47,22 @@ public class FavoriteController {
 
     @GetMapping(value = "/view")
     public String favoriteListView(
+            @RequestParam(value = "minimumPrice", required = false) Double minimumPrice,
+            @RequestParam(value = "maximumPrice", required = false) Double maximumPrice,
+            @RequestParam(value = "character", required = false) String character,
+            @RequestParam(value = "status", required = false, defaultValue = "Hamısı") String status,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "2") Integer size,
             Principal principal,
             Model model) {
         User loggedInUser = getLoggedInUserDetails(principal);
-        List<Favorite> favoriteList = favoriteService.getFavoriteListByUserId(loggedInUser.getId());
+        Page<Favorite> favoriteList = favoriteService.filterFavoriteList(loggedInUser.getId(), character, minimumPrice, maximumPrice, status, page, size);
+        model.addAttribute("minimumPrice", minimumPrice);
+        model.addAttribute("maximumPrice", maximumPrice);
+        model.addAttribute("character", character);
+        model.addAttribute("status", status);
+        model.addAttribute("page", page);
+        model.addAttribute("size", size);
         model.addAttribute("favoriteList", favoriteList);
         return "favorite-list/product-list";
     }
