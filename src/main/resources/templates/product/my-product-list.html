@@ -28,7 +28,7 @@
                    placeholder="Kateqoriyanın adını daxil edin" aria-label="Search">
             <button class="btn btn-outline-secondary" type="submit">Axtar</button>
             <input type="hidden" id="page" name="page" value="0">
-            <input type="hidden" id="size" name="size" value="10">
+            <input type="hidden" id="size" name="size" value="50">
         </form>
         <th:block th:if="${productList.content.size() > 0}">
             <span class="me-2">Məhsulların sayı: [[${productList.totalElements}]]</span>

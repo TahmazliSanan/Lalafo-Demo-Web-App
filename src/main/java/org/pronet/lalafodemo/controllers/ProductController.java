@@ -115,7 +115,7 @@ public class ProductController {
     public String myProductListView(
             @RequestParam(value = "character", required = false) String character,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam(value = "size", defaultValue = "50") Integer size,
             Principal principal,
             Model model) {
         User loggedInUser = getLoggedInUserDetails(principal);

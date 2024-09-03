@@ -52,7 +52,7 @@ public class FavoriteController {
             @RequestParam(value = "character", required = false) String character,
             @RequestParam(value = "status", required = false, defaultValue = "Hamısı") String status,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "2") Integer size,
+            @RequestParam(value = "size", defaultValue = "50") Integer size,
             Principal principal,
             Model model) {
         User loggedInUser = getLoggedInUserDetails(principal);
