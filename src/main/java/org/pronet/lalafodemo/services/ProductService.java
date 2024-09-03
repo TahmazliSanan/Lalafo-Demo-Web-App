@@ -11,7 +11,7 @@ public interface ProductService {
     Product getProductById(Long id);
     Page<Product> getAllProductsByCategoryId(Long categoryId, Integer page, Integer size);
     Page<Product> getAllProductsByNameAndUserId(String character, Long userId, Integer page, Integer size);
-    Page<Product> filterAllProductsByPriceAndName(Double minimumPrice, Double maximumPrice, String character, Integer page, Integer size);
+    Page<Product> filterAllProductsByPriceNameAndStatus(Double minimumPrice, Double maximumPrice, String character, String status, Integer page, Integer size);
     void updateProduct(Product product, MultipartFile file, Long categoryId) throws IOException;
     void deleteProductById(Long id);
 }

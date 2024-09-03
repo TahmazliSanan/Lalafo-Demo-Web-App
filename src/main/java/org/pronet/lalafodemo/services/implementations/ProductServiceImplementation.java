@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -87,9 +88,10 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
-    public Page<Product> filterAllProductsByPriceAndName(
+    public Page<Product> filterAllProductsByPriceNameAndStatus(
             Double minimumPrice, Double maximumPrice, String character,
-            Integer page, Integer size) {
+            String status, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
         if (minimumPrice == null) {
             minimumPrice = 0.0;
         }
@@ -99,8 +101,11 @@ public class ProductServiceImplementation implements ProductService {
         if (character == null) {
             character = "";
         }
-        Pageable pageable = PageRequest.of(page, size);
-        return productRepository.findAllByPriceBetweenAndNameContainingIgnoreCase(minimumPrice, maximumPrice, character.trim(), pageable);
+        if (!StringUtils.hasText(status) || status.equalsIgnoreCase("Hamısı")) {
+            return productRepository.findAllByPriceBetweenAndNameContainingIgnoreCase(minimumPrice, maximumPrice, character.trim(), pageable);
+        } else {
+            return productRepository.findAllByPriceBetweenAndNameContainingIgnoreCaseAndStatus(minimumPrice, maximumPrice, character.trim(), status, pageable);
+        }
     }
 
     @Override
