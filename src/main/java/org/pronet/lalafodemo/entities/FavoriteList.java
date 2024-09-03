@@ -3,7 +3,7 @@ package org.pronet.lalafodemo.entities;
 import jakarta.persistence.*;
 
 @Entity
-public class Favorite {
+public class FavoriteList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -12,10 +12,10 @@ public class Favorite {
     @ManyToOne
     private Product product;
 
-    public Favorite() {
+    public FavoriteList() {
     }
 
-    public Favorite(Long id, User user, Product product) {
+    public FavoriteList(Long id, User user, Product product) {
         this.id = id;
         this.user = user;
         this.product = product;

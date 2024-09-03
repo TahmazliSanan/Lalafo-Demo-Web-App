@@ -22,7 +22,7 @@ public class Product {
     @ManyToOne
     private User user;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Favorite> favoriteList;
+    private List<FavoriteList> favoriteList;
     @CreationTimestamp
     private LocalDateTime createdDateTime;
 
@@ -31,7 +31,7 @@ public class Product {
 
     public Product(
             Long id, String name, String status, String location, String mobileNumber, String imageName,
-            Double price, Category category, User user, List<Favorite> favoriteList) {
+            Double price, Category category, User user, List<FavoriteList> favoriteList) {
         this.id = id;
         this.name = name;
         this.status = status;
@@ -116,11 +116,11 @@ public class Product {
         this.user = user;
     }
 
-    public List<Favorite> getFavoriteList() {
+    public List<FavoriteList> getFavoriteList() {
         return favoriteList;
     }
 
-    public void setFavoriteList(List<Favorite> favoriteList) {
+    public void setFavoriteList(List<FavoriteList> favoriteList) {
         this.favoriteList = favoriteList;
     }
 
