@@ -58,7 +58,11 @@
             <span class="fw-bold">Paylaşım tarixi:</span>
             [[${#temporals.format(foundedProduct.createdDateTime, 'dd/MM/yyyy HH:mm')}]]
           </p>
-            <a href="#" class="btn btn-outline-warning">Seçilmişlərə əlavə et</a>
+          <form th:if="${!isExistProductInFavoriteList}" action="/favorite-list/add-to-favorites" method="post">
+            <input type="hidden" name="productId" th:value="${foundedProduct.id}">
+            <button type="submit" class="btn btn-outline-warning">Seçilmişlərə əlavə et</button>
+          </form>
+          <a th:unless="${!isExistProductInFavoriteList}" href="#" class="btn btn-outline-danger">Seçilmişlərdən sil</a>
         </div>
       </div>
     </div>
