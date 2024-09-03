@@ -5,6 +5,7 @@ import org.pronet.lalafodemo.entities.Category;
 import org.pronet.lalafodemo.entities.Product;
 import org.pronet.lalafodemo.entities.User;
 import org.pronet.lalafodemo.services.CategoryService;
+import org.pronet.lalafodemo.services.FavoriteService;
 import org.pronet.lalafodemo.services.ProductService;
 import org.pronet.lalafodemo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class ProductController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FavoriteService favoriteService;
 
     @ModelAttribute
     public User getLoggedInUserDetails(
@@ -76,9 +80,14 @@ public class ProductController {
     @GetMapping(value = "/details/{id}")
     public String productDetailsView(
             @PathVariable(value = "id") Long id,
+            Principal principal,
             Model model) {
+        User loggedInUser = getLoggedInUserDetails(principal);
         Product foundedProduct = productService.getProductById(id);
+        Boolean isExistProductInFavoriteList = favoriteService.isProductInFavoriteList(loggedInUser.getId(), id);
+        System.out.println("STATUS: " + isExistProductInFavoriteList);
         model.addAttribute("foundedProduct", foundedProduct);
+        model.addAttribute("isExistProductInFavoriteList", isExistProductInFavoriteList);
         return "product/product-details";
     }
 
