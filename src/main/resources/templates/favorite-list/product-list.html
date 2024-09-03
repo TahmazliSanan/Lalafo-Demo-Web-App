@@ -97,8 +97,13 @@
                     <div class="card-body">
                         <h5 class="card-title">[[${favorite.product.name}]]</h5>
                         <h6 class="card-title">[[${favorite.product.price}]] AZN</h6>
-                        <a th:href="@{'/product/details/' + ${favorite.product.id}}"
-                           class="btn btn-outline-info">Ətraflı</a>
+                        <form action="/favorite-list/remove-from-favorites-same-view" method="post">
+                            <a th:href="@{'/product/details/' + ${favorite.product.id}}"
+                               class="btn btn-outline-info">Ətraflı</a>
+                            <input type="hidden" name="productId" th:value="${favorite.product.id}">
+                            <button type="submit" class="btn btn-outline-danger">Seçilmişlərdən sil</button>
+                        </form>
+
                     </div>
                 </div>
             </div>
