@@ -22,6 +22,8 @@ public class User {
     private String imageName;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> productList;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorite> favoriteList;
     @ManyToOne
     private Role role;
     private String resetToken;
@@ -35,7 +37,8 @@ public class User {
     public User(
             Long id, String firstName, String lastName, String username,
             String email, String password, LocalDate birthDate, String imageName,
-            List<Product> productList, Role role, String resetToken, Date tokenExpirationDate) {
+            List<Product> productList, List<Favorite> favoriteList,
+            Role role, String resetToken, Date tokenExpirationDate) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -45,6 +48,7 @@ public class User {
         this.birthDate = birthDate;
         this.imageName = imageName;
         this.productList = productList;
+        this.favoriteList = favoriteList;
         this.role = role;
         this.resetToken = resetToken;
         this.tokenExpirationDate = tokenExpirationDate;
@@ -120,6 +124,14 @@ public class User {
 
     public void setProductList(List<Product> productList) {
         this.productList = productList;
+    }
+
+    public List<Favorite> getFavoriteList() {
+        return favoriteList;
+    }
+
+    public void setFavoriteList(List<Favorite> favoriteList) {
+        this.favoriteList = favoriteList;
     }
 
     public Role getRole() {

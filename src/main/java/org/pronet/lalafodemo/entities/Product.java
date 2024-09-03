@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -20,13 +21,17 @@ public class Product {
     private Category category;
     @ManyToOne
     private User user;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorite> favoriteList;
     @CreationTimestamp
     private LocalDateTime createdDateTime;
 
     public Product() {
     }
 
-    public Product(Long id, String name, String status, String location, String mobileNumber, String imageName, Double price, Category category, User user) {
+    public Product(
+            Long id, String name, String status, String location, String mobileNumber, String imageName,
+            Double price, Category category, User user, List<Favorite> favoriteList) {
         this.id = id;
         this.name = name;
         this.status = status;
@@ -36,6 +41,7 @@ public class Product {
         this.price = price;
         this.category = category;
         this.user = user;
+        this.favoriteList = favoriteList;
     }
 
     public Long getId() {
@@ -108,6 +114,14 @@ public class Product {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Favorite> getFavoriteList() {
+        return favoriteList;
+    }
+
+    public void setFavoriteList(List<Favorite> favoriteList) {
+        this.favoriteList = favoriteList;
     }
 
     public LocalDateTime getCreatedDateTime() {
