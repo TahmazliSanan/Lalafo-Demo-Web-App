@@ -178,7 +178,7 @@ public class ProductController {
             @RequestParam(value = "id") Long id,
             HttpSession session) {
         productService.deleteProductById(id);
-        session.setAttribute("successMessage", "Elan uğurla silindi!");
+        session.setAttribute("successMessage", "Məhsul uğurla silindi!");
         return "redirect:/product/list/my-products";
     }
 }

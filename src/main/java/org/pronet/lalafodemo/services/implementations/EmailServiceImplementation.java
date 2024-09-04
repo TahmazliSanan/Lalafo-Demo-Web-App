@@ -17,7 +17,7 @@ public class EmailServiceImplementation implements EmailService {
         mailMessage.setTo(receiverEmail);
         mailMessage.setSubject("Şifrəni yeniləmə linki");
         mailMessage.setText("Şifrəni yeniləmək üçün aşağıdakı linkə daxil olun:\n" + resetLink);
-        mailMessage.setFrom("admin.lalafo@gmail.com");
+        mailMessage.setFrom("tehmezlisenan11@gmail.com");
         mailSender.send(mailMessage);
     }
 }

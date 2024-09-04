@@ -15,7 +15,8 @@
 <body>
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Lalafo</a>
+        <a th:if="${foundedUser == null || foundedUser.role.name == 'Customer'}" class="navbar-brand" href="/">Lalafo</a>
+        <a th:if="${foundedUser != null && foundedUser.role.name == 'Admin'}" class="navbar-brand" href="/admin/">Lalafo</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -24,12 +25,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/">Ana Səhifə</a>
+                    <a th:if="${foundedUser == null || foundedUser.role.name == 'Customer'}"
+                       class="nav-link active" href="/">Ana Səhifə</a>
+                    <a th:if="${foundedUser != null && foundedUser.role.name == 'Admin'}"
+                       class="nav-link active" href="/admin/">Ana Səhifə</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="/category/list-for-user">Kateqoriyalar</a>
+                    <a th:if="${foundedUser == null || foundedUser.role.name == 'Customer'}"
+                       class="nav-link active" href="/category/list-for-user">Kateqoriyalar</a>
+                    <a th:if="${foundedUser != null && foundedUser.role.name == 'Admin'}"
+                       class="nav-link active" href="/category/list-for-admin">Kateqoriyalar</a>
                 </li>
-                <li class="nav-item">
+                <li th:if="${foundedUser == null || foundedUser.role.name == 'Customer'}" class="nav-item">
                     <a class="nav-link active" href="/product/list">Məhsullar</a>
                 </li>
             </ul>

@@ -29,12 +29,14 @@
                 <div class="col">
                     <label for="minimumPrice"></label>
                     <input class="form-control" type="number" id="minimumPrice"
-                           name="minimumPrice" placeholder="Minimum qiymət" step="0.1" min="0">
+                           th:value="${minimumPrice}" name="minimumPrice"
+                           placeholder="Minimum qiymət" step="0.1" min="0">
                 </div>
                 <div class="col">
                     <label for="maximumPrice"></label>
                     <input class="form-control" type="number" id="maximumPrice"
-                           name="maximumPrice" placeholder="Maksimum qiymət" step="0.1" min="0">
+                           th:value="${maximumPrice}" name="maximumPrice"
+                           placeholder="Maksimum qiymət" step="0.1" min="0">
                 </div>
                 <div class="col">
                     <label for="status"></label>
@@ -49,7 +51,7 @@
                 <div class="col">
                     <label for="character"></label>
                     <input class="form-control" type="search" id="character" name="character"
-                           placeholder="Elanın adını daxil edin" aria-label="Search">
+                           th:value="${character}" placeholder="Elanın adını daxil edin" aria-label="Search">
                     <button class="btn btn-outline-secondary mt-3 mb-2" type="submit">Axtar</button>
                 </div>
             </div>
