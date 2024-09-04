@@ -35,16 +35,15 @@ public class ProductController {
     private FavoriteListService favoriteListService;
 
     @ModelAttribute
-    public User getLoggedInUserDetails(
+    public void getLoggedInUserDetails(
             Principal principal,
             Model model) {
         if (principal != null) {
             String email = principal.getName();
             User foundedUser = userService.getUserByEmail(email);
             model.addAttribute("foundedUser", foundedUser);
-            return foundedUser;
         } else {
-            return null;
+            model.addAttribute("foundedUser", null);
         }
     }
 

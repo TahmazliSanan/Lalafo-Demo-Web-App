@@ -19,16 +19,15 @@ public class ProfileController {
     private UserService userService;
 
     @ModelAttribute
-    public User getLoggedInUserDetails(
+    public void getLoggedInUserDetails(
             Principal principal,
             Model model) {
         if (principal != null) {
             String email = principal.getName();
             User foundedUser = userService.getUserByEmail(email);
             model.addAttribute("foundedUser", foundedUser);
-            return foundedUser;
         } else {
-            return null;
+            model.addAttribute("foundedUser", null);
         }
     }
 
@@ -45,7 +44,7 @@ public class ProfileController {
     public String myProfileView(
             Principal principal,
             Model model) {
-        User loggedInUser = getLoggedInUserDetails(principal, model);
+        User loggedInUser = getLoggedInUserDetails(principal);
         model.addAttribute("loggedInUser", loggedInUser);
         return "profile/my-profile";
     }
