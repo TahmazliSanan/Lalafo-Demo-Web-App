@@ -10,6 +10,18 @@
 <section>
     <div class="container-fluid p-5 mt-5">
         <h2>Giriş</h2>
+        <div th:if="${session.successMessage}" class="alert alert-success alert-dismissible fade show"
+             role="alert">
+            [[${session.successMessage}]]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
+        </div>
+        <div th:if="${session.errorMessage}" class="alert alert-danger alert-dismissible fade show"
+             role="alert">
+            [[${session.errorMessage}]]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <th:block th:text="${@sessionMessageManagementServiceImplementation.removeSessionMessage()}"></th:block>
+        </div>
         <div th:if="${param.error}"
              class="alert alert-danger alert-dismissible fade show" role="alert">
             [[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]
