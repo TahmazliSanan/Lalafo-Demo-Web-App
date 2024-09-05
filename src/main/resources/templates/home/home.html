@@ -9,8 +9,43 @@
 </head>
 <body>
 <section>
-    <div class="container-fluid p-3">
-        <h2 class="text-center mt-5 mb-3">Lalafo-ya xoş gəlmisiniz!</h2>
+    <div class="container-fluid p-5 mt-3">
+        <h3 class="text-center">Lalafo-ya xoş gəlmisiniz!</h3>
+        <div class="row">
+            <h4>Ən son əlavə edilən kateqoriyalar</h4>
+            <div th:if="${lastAddedFourCategories.size() > 0}" class="col-md-3 pt-3"
+                 th:each="category : ${lastAddedFourCategories}">
+                <div class="card">
+                    <img alt="" th:src="@{'/category-images/' + ${category.imageName}}"
+                         width="100%" height="150px">
+                    <div class="card-body">
+                        <h5 class="card-title">[[${category.name}]]</h5>
+                    </div>
+                </div>
+            </div>
+            <div th:unless="${lastAddedFourCategories.size() > 0}"
+                 class="alert alert-danger alert-dismissible fade show" role="alert">
+                Kateqoriya mövcud deyil!
+            </div>
+        </div>
+        <div class="row mt-3">
+            <h4>Ən son paylaşılan məhsullar</h4>
+            <div th:if="${lastAddedFourProducts.size() > 0}"
+                 class="col-md-3 pt-3" th:each="product : ${lastAddedFourProducts}">
+                <div class="card">
+                    <img alt="" th:src="@{'/product-images/' + ${product.imageName}}"
+                         width="100%" height="150px">
+                    <div class="card-body">
+                        <h5 class="card-title">[[${product.name}]]</h5>
+                        <h6 class="card-title">[[${product.price}]] AZN</h6>
+                    </div>
+                </div>
+            </div>
+            <div th:unless="${lastAddedFourProducts.size() > 0}"
+                 class="alert alert-danger alert-dismissible fade show" role="alert">
+                Məhsul mövcud deyil!
+            </div>
+        </div>
     </div>
 </section>
 </body>
