@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -70,6 +71,11 @@ public class ProductServiceImplementation implements ProductService {
         return productRepository
                 .findById(id)
                 .orElse(null);
+    }
+
+    @Override
+    public List<Product> getLastAddedFourProducts() {
+        return productRepository.findTop4ByOrderByCreatedDateTimeDesc();
     }
 
     @Override
