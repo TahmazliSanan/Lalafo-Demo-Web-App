@@ -60,6 +60,11 @@
                             Seçilmişlər
                         </a>
                     </li>
+                    <li th:if="${foundedUser.role.name == 'Admin'}" class="nav-item">
+                        <a class="nav-link active" href="/admin/">
+                            Admin Panel
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="/profile/view">
                             [[${foundedUser.firstName + ' ' + foundedUser.lastName}]]
