@@ -11,6 +11,7 @@ public interface CategoryService {
     void createCategory(Category category, MultipartFile file) throws IOException;
     Category getCategoryById(Long id);
     List<Category> getAllCategories();
+    List<Category> getLastAddedFourCategories();
     Page<Category> getAllCategoriesByName(String name, Integer page, Integer size);
     void updateCategory(Category category, MultipartFile file) throws IOException;
     void deleteCategoryById(Long id);

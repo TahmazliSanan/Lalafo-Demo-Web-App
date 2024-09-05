@@ -55,6 +55,11 @@ public class CategoryServiceImplementation implements CategoryService {
     }
 
     @Override
+    public List<Category> getLastAddedFourCategories() {
+        return categoryRepository.findTop4ByOrderByCreatedDateTimeDesc();
+    }
+
+    @Override
     public Page<Category> getAllCategoriesByName(String name, Integer page, Integer size) {
         if (name == null) {
             name = "";
