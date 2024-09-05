@@ -5,12 +5,12 @@
         th:replace="~{base/layout::layout(~{::section})}">
 <head>
     <meta charset="UTF-8">
-    <title>Məhsullar</title>
+    <title>Seçilmiş məhsullar</title>
 </head>
 <body>
 <section>
-    <div class="container-fluid p-5 mt-5">
-        <h2>Məhsullar</h2>
+    <div class="container-fluid p-5 mt-3">
+        <h3>Seçilmiş məhsullar</h3>
         <div th:if="${session.successMessage}" class="alert alert-success alert-dismissible fade show"
              role="alert">
             [[${session.successMessage}]]
